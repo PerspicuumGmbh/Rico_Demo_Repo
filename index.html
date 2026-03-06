@@ -169,7 +169,7 @@
   nav.side #sidenav .solo a{
     position: relative;
     display:block;
-    padding: 9px 12px 9px 14px;
+    padding: 9px 12px 9px 14px; /* Increased padding to make the hover background larger */
     margin: 3px 2px;
     color: var(--nav-text-dim);
     text-decoration:none;
@@ -218,36 +218,44 @@
   }
 </style>
 
-
 <style id="chev-center-fix">
-  /* Center the chevron inside its box and anchor it to the right */
-  nav.side#sidenav .group-head{ position:relative; padding-right:40px; }
-
-  nav.side#sidenav .group-head .chev{
-    position:absolute;
-    right:12px; top:50%;
-    transform:translateY(-50%);
-    width:18px; height:18px;
-    border-radius:6px;
-    border:1px solid var(--nav-border);
-    background:rgba(255,255,255,.05);
-    pointer-events:none;
+  nav.side#sidenav .group-head {
+    position: relative;
+    padding-right: 42px;
   }
-  nav.side#sidenav .group-head .chev::before{
-    content:"";
-    position:absolute;
-    top:50%; left:50%;
-    transform:translate(-50%,-50%) rotate(-45deg);
-    width:8px; height:8px;
-    border-right:2px solid var(--nav-text-dim);
-    border-bottom:2px solid var(--nav-text-dim);
-    transition:transform .15s ease, border-color .15s ease;
+  nav.side#sidenav .group-head .chev {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--nav-border);
+    background: rgba(255, 255, 255, .05);
+    pointer-events: none;
   }
-  nav.side#sidenav .group-head[aria-expanded="true"] .chev::before{
-    transform:translate(-50%,-50%) rotate(45deg);
-    border-color:var(--nav-text);
+  /* default: arrow points RIGHT — perfectly centered */
+  nav.side#sidenav .group-head .chev::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid var(--nav-text-dim);
+    border-bottom: 2px solid var(--nav-text-dim);
+    transform: translate(-100%, -50%) rotate(-45deg);
+    transition: transform .15s ease, border-color .20s ease;
+  }
+  /* expanded: arrow points DOWN */
+  nav.side#sidenav .group-head[aria-expanded="true"] .chev::before {
+    transform: translate(-80%, -80%) rotate(45deg);
+    border-color: var(--nav-text);
   }
 </style>
+
+
 </head>
 <body>
   <div class="app" id="appgrid">
@@ -267,6 +275,7 @@
             <li class="child"><a href="#" id="lnk-datev-bwa" data-report="bwa" data-page="ecda4f2eb5f29d9fcbe0" onclick="openSub(this,'Datev – BWA');return false;">BWA</a></li>
             <li class="child"><a href="#" id="lnk-datev-gesamtleistung" data-report="bwa" data-page="8632ee0416e75c8da0c0" onclick="openSub(this,'Datev – Gesamtleistung');return false;">Gesamtleistung</a></li>
             <li class="child"><a href="#" id="lnk-datev-gesamtkosten" data-report="bwa" data-page="5e3ce53a4df6ca6575d8" onclick="openSub(this,'Datev – Gesamtkosten');return false;">Gesamtkosten</a></li>
+            <li class="child"><a href="#" id="lnk-datev-kontenanalyse" data-report="bwa" data-page="d59ac8ebd3b3bd44aa5d" onclick="openSub(this,'Datev – Kontenanalyse');return false;">Kontenanalyse</a></li>
             <li class="child"><a href="#" id="lnk-datev-ker" data-report="bwa" data-page="64cee9878648b9d0ebd1" onclick="openSub(this,'Datev – kurzfr. Erfolgsrechnung');return false;">kurzfr. Erfolgsrechnung</a></li>
             <li class="child"><a href="#" id="lnk-datev-vorjahres" data-report="bwa" data-page="790f9fc1e58c19c00c3c" onclick="openSub(this,'Datev – Vorjahresvergleich');return false;">Vorjahresvergleich</a></li>
             <li class="child"><a href="#" id="lnk-datev-buchungsdetails" data-report="bwa" data-page="eb00570a9e5682813184" onclick="openSub(this,'Datev – Buchungsdetails');return false;">Buchungsdetails</a></li>
@@ -287,7 +296,6 @@
             <li class="child"><a href="#" id="lnk-kunden-report" data-report="kunden" data-page="bb68509a762cb60e20de" onclick="openSub(this,'Kunden – Kundenreport');return false;">Kundenreport</a></li>
             <li class="child"><a href="#" id="lnk-kunden-skonto" data-report="kunden" data-page="7822309c5bed40e5633c" onclick="openSub(this,'Kunden – Skonto');return false;">Skonto</a></li>
             <li class="child"><a href="#" id="lnk-kunden-ueberleitung" data-report="kunden" data-page="98c33be478500b048a45" onclick="openSub(this,'Kunden – Überleitung');return false;">Überleitung</a></li>
-
             <!-- <li class="child"><a href="#" id="lnk-kunden-skonto-new" data-report="kunden" data-page="76ec693e00805171e3db" onclick="openSub(this,'Kunden – Skonto new');return false;">Skonto new</a></li> -->
             <!--<li class="child"><a href="#" id="lnk-kunden-ueberleitung" data-report="kunden" data-page="98c33be478500b048a45" onclick="openSub(this,'Kunden – Überleitung');return false;">Überleitung</a></li> -->
           </ul>
@@ -356,7 +364,7 @@
 
   <script>
     const REPORT_URLS = {
-      bwa: "https://app.powerbi.com/view?r=eyJrIjoiYzIxNDJiMjgtOTI1Zi00MDU0LThlYmItMGQ4NzRjM2MzZTM3IiwidCI6IjMzZTNkOTAxLTQxOWYtNGEyYi04OTJkLWQ3NDJlZTg1NWZkMCJ9",
+      bwa: "https://app.powerbi.com/view?r=eyJrIjoiMDUyZDJiZDgtZTY3Ni00ODhjLWJkNTktNWI2N2QwMzliM2M1IiwidCI6IjMzZTNkOTAxLTQxOWYtNGEyYi04OTJkLWQ3NDJlZTg1NWZkMCJ9",
       kunden: "https://app.powerbi.com/view?r=eyJrIjoiOTYwMTRjN2UtMjUyZi00OGVmLTgxZmUtM2RmNDQ1NTRjZDU5IiwidCI6IjMzZTNkOTAxLTQxOWYtNGEyYi04OTJkLWQ3NDJlZTg1NWZkMCJ9",       
       lieferanten: "https://app.powerbi.com/view?r=eyJrIjoiYWU3YTdjNWUtOGZhYi00YzYwLWFhYjktNDA0NWQ4NDczYmI5IiwidCI6IjMzZTNkOTAxLTQxOWYtNGEyYi04OTJkLWQ3NDJlZTg1NWZkMCJ9",
       // analytics: "https://app.powerbi.com/view?r=eyJrIjoiN2E4OGVkYjUtYmIwMC00OTFlLTk5MDQtNGUwM2UzNjQ4OGM3IiwidCI6IjMzZTNkOTAxLTQxOWYtNGEyYi04OTJkLWQ3NDJlZTg1NWZkMCJ9",
